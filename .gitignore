@@ -1,0 +1,10 @@
+# IntelliJ Idea
+.idea/*
+
+# VSCode ignore
+.vscode/*
+*.code-workspace
+
+# docker-ops (gocd)
+ops/*
+**/imagerc*

@@ -11,7 +11,16 @@ RUN apt-get update && \
   rm -r /tmp/dojo_git && \
   rm -rf /var/lib/apt/lists/*
 
+# Install AWS CLI
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    curl groff zip unzip &&\
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" &&\
+    unzip awscliv2.zip &&\
+    sudo ./aws/install &&\
+    rm -rf awscliv2.zip
+
 # Cypress & start-server-and-test dependencies
+ENV CYPRESS_VERSION=12.8.1
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgtk2.0-0 \
     libgtk-3-0 \
@@ -26,7 +35,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN mkdir "/home/dojo/node_modules" "/home/dojo/.cache" "/home/dojo/.cache/Cypress"
 RUN npm config set prefix "/home/dojo/node_modules"
-RUN CYPRESS_CACHE_FOLDER=/home/dojo/.cache/Cypress npm i -g cypress --unsafe-perm
+RUN CYPRESS_CACHE_FOLDER=/home/dojo/.cache/Cypress npm i -g cypress@${CYPRESS_VERSION} --unsafe-perm
 
 COPY profile /home/dojo/.profile
 COPY bashrc /home/dojo/.bashrc

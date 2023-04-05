@@ -19,6 +19,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
     sudo ./aws/install &&\
     rm -rf awscliv2.zip
 
+# Install jq to parse json in bash
+RUN apt-get install -y jq
+
 # Cypress & start-server-and-test dependencies
 ENV CYPRESS_VERSION=12.8.1
 RUN apt-get update && apt-get install -y --no-install-recommends \
